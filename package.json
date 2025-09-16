@@ -12,6 +12,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "dotenv": "17.2.2",
     "express": "5.1.0",
     "mercadopago": "2.9.0",
     "qrcode": "1.5.4"
