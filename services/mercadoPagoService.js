@@ -1,29 +1,47 @@
 // services/mercadoPagoService.js
-const mercadopago = require("mercadopago");
+require("dotenv").config();
+const { MercadoPagoConfig, Order } = require('mercadopago');
 
-// Configurar el SDK con tu Access Token
-mercadopago.configurations.setAccessToken("TU_ACCESS_TOKEN");
+// Configurar el cliente Mercado Pago
+const client = new MercadoPagoConfig({
+  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN, // usa tu token real del .env
+  options: { timeout: 5000 },
+});
 
+// Función para crear un "Order" con datos de reserva
 async function crearPreferencia(reserva) {
-  const preference = {
-    items: [
-      {
-        title: `Entradas de ${reserva.comprador}`,
-        quantity: 1,
-        unit_price: reserva.totales.TOTAL,
-        currency_id: "ARS"
-      }
-    ],
-    back_urls: {
-      success: "http://localhost:3000/pago/exitoso",
-      failure: "http://localhost:3000/pago/fallido",
-      pending: "http://localhost:3000/pago/pendiente"
+  const order = new Order(client);
+
+  const body = {
+    type: "online",
+    processing_mode: "automatic",
+    total_amount: reserva.totales.TOTAL,
+    external_reference: reserva.ticket,
+    payer: {
+      email: reserva.compradorEmail,
     },
-    auto_return: "approved"
+    transactions: {
+      payments: [
+        {
+          amount: reserva.totales.TOTAL,
+          payment_method: {
+            id: "master",
+            type: "credit_card",
+            token: "card_token", // en producción reemplazá con token de tarjeta real
+            installments: 1,
+            statement_descriptor: "Mi tienda",
+          },
+        },
+      ],
+    },
   };
 
-  const response = await mercadopago.preferences.create(preference);
-  return response.body;
+  const requestOptions = {
+    idempotencyKey: `ticket_${reserva.ticket}`,
+  };
+
+  const response = await order.create({ body, requestOptions });
+  return response;
 }
 
 module.exports = { crearPreferencia };
