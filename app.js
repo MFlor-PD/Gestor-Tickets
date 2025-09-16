@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 const routes = require('./routes/ticketRoutes')
+const carritoRoutes = require("./routes/carritoRoutes");
+const mercadoPagoRoutes = require("./routes/mercadoPagoRoutes");
+
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -9,7 +13,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/', routes);
-
+app.use("/carrito", carritoRoutes);
+app.use("/mercadoPago", mercadoPagoRoutes);
 
 
 
