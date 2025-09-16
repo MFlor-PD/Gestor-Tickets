@@ -1,0 +1,67 @@
+[
+  {
+    "comprador": "Jhoel",
+    "entradas": {
+      "VIP": {
+        "Adult": 2,
+        "Child": 1
+      },
+      "GENERAL": {
+        "Adult": 1,
+        "Child": 1
+      }
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 160000,
+        "Child": 80000,
+        "total": 240000
+      },
+      "GENERAL": {
+        "Adult": 70000,
+        "Child": 70000,
+        "total": 140000
+      },
+      "TOTAL": 380000
+    },
+    "ticket": "TCK-1758033336648-535",
+    "fecha": "2025-09-16T14:35:36.648Z"
+  },
+  {
+    "comprador": "Joel",
+    "entradas": {
+      "VIP": {
+        "Adult": 2,
+        "Child": 1,
+        "nombres": [
+          "Juana",
+          "Susana",
+          "Carlos"
+        ]
+      },
+      "GENERAL": {
+        "Adult": 1,
+        "Child": 1,
+        "nombres": [
+          "Pedro",
+          "Ana"
+        ]
+      }
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 160000,
+        "Child": 80000,
+        "total": 240000
+      },
+      "GENERAL": {
+        "Adult": 70000,
+        "Child": 70000,
+        "total": 140000
+      },
+      "TOTAL": 380000
+    },
+    "ticket": "TCK-1758033605591-234",
+    "fecha": "2025-09-16T14:40:05.591Z"
+  }
+]

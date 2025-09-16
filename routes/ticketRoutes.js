@@ -1,21 +1,15 @@
-const express = require('express');
+// routes/ticketRoutes.js
+const express = require("express");
 const router = express.Router();
-const ticketController = require('../controllers/ticketController');
+const { crearReserva, borrarReserva, obtenerReservas } = require("../controllers/reservasController");
 
-router.post('/reservas', (req, res) => {
-    const { comprador, entradas } = req.body;
-    const reserva = ticketController.guardarReserva(comprador, entradas);
-    res.status(201).json(reserva);
-});
+// POST /reservas → crear una reserva
+router.post("/reservas", crearReserva);
 
-// DELETE /reservas/:ticket
-router.delete('/reservas/:ticket', (req, res) => {
-    const { ticket } = req.params;
-    const resultado = ticketController.eliminarReserva(ticket);
-    if (resultado.error) {
-        return res.status(404).json(resultado);
-    }
-    res.json(resultado);
-});
+// DELETE /reservas/:ticket → eliminar una reserva
+router.delete("/reservas/:ticket", borrarReserva);
+
+// GET /reservas → obtener todas las reservas
+router.get("/reservas", obtenerReservas);
 
 module.exports = router;
