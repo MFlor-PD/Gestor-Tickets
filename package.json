@@ -4,17 +4,46 @@
   "description": "🎯 MVP",
   "main": "app.js",
   "scripts": {
-    "start": "node --watch app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "PORT=3000 react-scripts start",
+    "start:api": "node --watch app.js",
+    "dev": "concurrently \"npm run start:api\" \"npm run start\"",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
   },
   "keywords": [],
   "author": "Los 3 Chanchitos",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
+    "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "cors": "2.8.5",
     "dotenv": "17.2.2",
     "express": "5.1.0",
+    "lucide-react": "^0.544.0",
     "mercadopago": "^2.9.0",
-    "qrcode": "1.5.4"
+    "qrcode": "1.5.4",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-scripts": "^0.0.0",
+    "web-vitals": "^5.1.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "concurrently": "^9.2.1",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.7"
   }
 }

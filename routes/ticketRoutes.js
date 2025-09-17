@@ -4,13 +4,13 @@ const router = express.Router();
 const { crearReserva, borrarReserva, obtenerReservas, obtenerReserva} = require("../controllers/reservasController");
 
 // POST /reservas → crear una reserva
-router.post("/reservas", crearReserva);
+router.post("/", crearReserva);
 
 // DELETE /reservas/:ticket → eliminar una reserva
-router.delete("/reservas/:ticket", borrarReserva);
+router.delete("/:ticket", borrarReserva);
 
 // GET /reservas → obtener todas las reservas
-router.get("/reservas", obtenerReservas);
+router.get("/", obtenerReservas);
 
 // GET /reservas/:ticket → obtener reserva por ticket
 router.get("/reservas/:ticket", obtenerReserva)
