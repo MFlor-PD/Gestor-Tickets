@@ -63,5 +63,76 @@
     },
     "ticket": "TCK-1758033605591-234",
     "fecha": "2025-09-16T14:40:05.591Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Florencia Perez",
+      "email": "flor@example.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": {
+        "Adult": 2,
+        "Child": 1
+      },
+      "GENERAL": {
+        "Adult": 3,
+        "Child": 2
+      }
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 160000,
+        "Child": 80000,
+        "total": 240000
+      },
+      "GENERAL": {
+        "Adult": 210000,
+        "Child": 140000,
+        "total": 350000
+      },
+      "TOTAL": 590000
+    },
+    "ticket": "TCK-1758105978294-737",
+    "fecha": "2025-09-17T10:46:18.294Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Florencia Perez",
+      "email": "flor@example.com"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758106638283-63",
+    "fecha": "2025-09-17T10:57:18.283Z"
   }
 ]

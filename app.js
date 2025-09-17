@@ -3,8 +3,7 @@ const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT
 const routes = require('./routes/ticketRoutes')
-const carritoRoutes = require("./routes/carritoRoutes");
-const mercadoPagoRoutes = require("./routes/mercadoPagoRoutes");
+
 
 
 app.use(express.json());
@@ -14,8 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/', routes);
-app.use("/carrito", carritoRoutes);
-app.use("/mercadoPago", mercadoPagoRoutes);
+
 
 
 

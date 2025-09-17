@@ -1,5 +1,9 @@
-// controllers/reservasController.js
-const { guardarReserva, eliminarReserva, listarReservas } = require("../services/reservaService");
+const {
+    guardarReserva,
+    listarReservas,
+    obtenerReservaPorTicket,
+    eliminarReserva
+} = require("../services/reservaService");
 
 // POST /reservas → crear
 async function crearReserva(req, res) {
@@ -8,18 +12,7 @@ async function crearReserva(req, res) {
         const reserva = await guardarReserva(comprador, entradas);
         res.json({ message: "Reserva creada", reserva });
     } catch (err) {
-        res.status(500).json({ error: "Error al crear la reserva" });
-    }
-}
-
-// DELETE /reservas/:ticket → eliminar
-async function borrarReserva(req, res) {
-    try {
-        const { ticket } = req.params;
-        const result = await eliminarReserva(ticket);
-        res.json(result);
-    } catch (err) {
-        res.status(500).json({ error: "Error al eliminar la reserva" });
+        res.status(500).json({ error: err.message || "Error al crear la reserva" });
     }
 }
 
@@ -29,8 +22,35 @@ async function obtenerReservas(req, res) {
         const reservas = await listarReservas();
         res.json(reservas);
     } catch (err) {
-        res.status(500).json({ error: "Error al leer las reservas" });
+        res.status(500).json({ error: err.message || "Error al listar las reservas" });
     }
 }
 
-module.exports = { crearReserva, borrarReserva, obtenerReservas };
+// GET /reservas/:ticket → obtener por ticket
+async function obtenerReserva(req, res) {
+    try {
+        const { ticket } = req.params;
+        const reserva = await obtenerReservaPorTicket(ticket);
+        res.json(reserva);
+    } catch (err) {
+        res.status(404).json({ error: err.message || "Reserva no encontrada" });
+    }
+}
+
+// DELETE /reservas/:ticket → eliminar
+async function borrarReserva(req, res) {
+    try {
+        const { ticket } = req.params;
+        const reserva = await eliminarReserva(ticket);
+        res.json({ message: "Reserva eliminada", reserva });
+    } catch (err) {
+        res.status(404).json({ error: err.message || "Reserva no encontrada" });
+    }
+}
+
+module.exports = {
+    crearReserva,
+    obtenerReservas,
+    obtenerReserva,
+    borrarReserva
+};

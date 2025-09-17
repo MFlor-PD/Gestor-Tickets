@@ -25,6 +25,12 @@ async function listarReservas() {
     return await leerVentas();
 }
 
+async function obtenerReservaPorTicket(ticket) {
+    const data = await leerVentas();
+    const reserva = data.find(r => r.ticket === ticket);
+    if (!reserva) throw new Error("Reserva no encontrada");
+    return reserva;
+}
 
 async function eliminarReserva(ticket) {
     const data = await leerVentas();
@@ -39,7 +45,9 @@ async function eliminarReserva(ticket) {
     return { message: "Reserva eliminada", reserva: reservaEliminada };
 }
 
-module.exports = { guardarReserva, eliminarReserva, listarReservas};
+
+
+module.exports = { guardarReserva, eliminarReserva, listarReservas, obtenerReservaPorTicket};
 
 
 

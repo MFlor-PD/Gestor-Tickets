@@ -1,3 +1,110 @@
+rutas y body:
+RESERVAS:
+POST http://localhost:3000/reservas
+
+{
+  "comprador": {
+    "nombre": "Florencia  JUANA Perez",
+    "email": "flor@example.com",
+    "telefono": "+541112345678"
+  },
+ "entradas": {
+    "VIP": [
+      { "tipo": "Adult", "nombre": "Juan Perez" },
+      { "tipo": "Adult", "nombre": "Ana Lopez" },
+      { "tipo": "Child", "nombre": "Lucas Perez" }
+    ],
+    "GENERAL": [
+      { "tipo": "Adult", "nombre": "Carlos Gomez" },
+      { "tipo": "Adult", "nombre": "Laura Diaz" },
+      { "tipo": "Adult", "nombre": "Miguel Torres" },
+      { "tipo": "Child", "nombre": "Sofia Gomez" },
+      { "tipo": "Child", "nombre": "Diego Diaz" }
+    ]
+  }
+}
+
+RESPUESTA:
+{
+    "message": "Reserva creada",
+    "reserva": {
+        "comprador": {
+            "nombre": "Florencia  JUANA Perez",
+            "email": "flor@example.com",
+            "telefono": "+541112345678"
+        },
+        "entradas": {
+            "VIP": [
+                {
+                    "tipo": "Adult",
+                    "nombre": "Juan Perez"
+                },
+                {
+                    "tipo": "Adult",
+                    "nombre": "Ana Lopez"
+                },
+                {
+                    "tipo": "Child",
+                    "nombre": "Lucas Perez"
+                }
+            ],
+            "GENERAL": [
+                {
+                    "tipo": "Adult",
+                    "nombre": "Carlos Gomez"
+                },
+                {
+                    "tipo": "Adult",
+                    "nombre": "Laura Diaz"
+                },
+                {
+                    "tipo": "Adult",
+                    "nombre": "Miguel Torres"
+                },
+                {
+                    "tipo": "Child",
+                    "nombre": "Sofia Gomez"
+                },
+                {
+                    "tipo": "Child",
+                    "nombre": "Diego Diaz"
+                }
+            ]
+        },
+        "totales": {
+            "VIP": {
+                "Adult": 0,
+                "Child": 0,
+                "total": 0
+            },
+            "GENERAL": {
+                "Adult": 0,
+                "Child": 0,
+                "total": 0
+            },
+            "TOTAL": 0
+        },
+        "ticket": "TCK-1758106245812-711",
+        "fecha": "2025-09-17T10:50:45.812Z"
+    }
+}
+
+PATCH http://localhost:3000/reservas/TCK-1758105978294-73
+DELETE http://localhost:3000/reservas/TCK-1758105978294-73
+
+
+CARRITO:
+GET: http://localhost:3000/carrito
+POST: http://localhost:3000/carrito
+PATCH http://localhost:3000/carrito/TCK-1111111111-002/medio-pago/
+DELETE: http://localhost:3000/carrito/TCK-1111111111-002/ elimina uno
+DELETE:http://localhost:3000/carrito (VACIA EL CARRO)
+
+MERCADO PAGO:
+
+POST http://localhost:3000/pago
+
+
 🎯 Requerimientos mínimos
 
 Landing page simple
