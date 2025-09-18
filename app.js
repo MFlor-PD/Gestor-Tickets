@@ -3,6 +3,7 @@ const app = express();
 require('dotenv').config();
 const PORT = process.env.PORT || 3001;
 const routes = require('./routes/ticketRoutes');
+const paymentRoutes = require('./routes/paymentRoutes');
 const cors = require('cors'); 
 
 // CORS configurado específicamente para tu frontend
@@ -20,6 +21,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/reservas', routes);
+app.use('/api', paymentRoutes);
 
 
 app.listen(PORT, () => {
