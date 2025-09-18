@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.use('/', routes);
+app.use('/reservas', routes);
 
 
 app.listen(PORT, () => {

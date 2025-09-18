@@ -1,7 +1,7 @@
 // routes/ticketRoutes.js
 const express = require("express");
 const router = express.Router();
-const { crearReserva, borrarReserva, obtenerReservas, obtenerReserva} = require("../controllers/reservasController");
+const { crearReserva, borrarReserva, obtenerReservas, obtenerReserva, descargarPDF} = require("../controllers/reservasController");
 
 // POST /reservas → crear una reserva
 router.post("/", crearReserva);
@@ -13,6 +13,8 @@ router.delete("/:ticket", borrarReserva);
 router.get("/", obtenerReservas);
 
 // GET /reservas/:ticket → obtener reserva por ticket
-router.get("/reservas/:ticket", obtenerReserva)
+router.get("/:ticket", obtenerReserva)
+
+router.get("/:ticket/pdf", descargarPDF);
 
 module.exports = router;

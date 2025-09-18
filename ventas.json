@@ -1,3 +1,602 @@
 [
- 
+  {
+    "comprador": {
+      "nombre": "Florencia JUANA Perez",
+      "email": "flofu_36@hotmail.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758180042946-588",
+    "fecha": "2025-09-18T07:20:42.946Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Florencia Maria Perez",
+      "email": "flofu_36@hotmail.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758180381630-184",
+    "fecha": "2025-09-18T07:26:21.630Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Florencia Maria Perez",
+      "email": "flofu_36@hotmail.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758180524261-472",
+    "fecha": "2025-09-18T07:28:44.261Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Florencia Maria Perez",
+      "email": "mariaflorenciaperezd@gmail.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758181009811-111",
+    "fecha": "2025-09-18T07:36:49.811Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Florencia Maria Perez",
+      "email": "mariaflorenciaperezd@gmail.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758181031087-421",
+    "fecha": "2025-09-18T07:37:11.087Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Florencia Maria Perez",
+      "email": "merie@ejemplo.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758181345983-425",
+    "fecha": "2025-09-18T07:42:25.983Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Maria Perez",
+      "email": "merie@ejemplo.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758181656186-126",
+    "fecha": "2025-09-18T07:47:36.186Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Sarasa",
+      "email": "merie@ejemplo.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758181762952-398",
+    "fecha": "2025-09-18T07:49:22.952Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Sarasa",
+      "email": "merie@ejemplo.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758182007130-344",
+    "fecha": "2025-09-18T07:53:27.130Z"
+  },
+  {
+    "comprador": {
+      "nombre": "Sarrrrrsa",
+      "email": "merie@ejemplo.com",
+      "telefono": "+541112345678"
+    },
+    "entradas": {
+      "VIP": [
+        {
+          "tipo": "Adult",
+          "nombre": "Juan Perez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Ana Lopez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Lucas Perez"
+        }
+      ],
+      "GENERAL": [
+        {
+          "tipo": "Adult",
+          "nombre": "Carlos Gomez"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Laura Diaz"
+        },
+        {
+          "tipo": "Adult",
+          "nombre": "Miguel Torres"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Sofia Gomez"
+        },
+        {
+          "tipo": "Child",
+          "nombre": "Diego Diaz"
+        }
+      ]
+    },
+    "totales": {
+      "VIP": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "GENERAL": {
+        "Adult": 0,
+        "Child": 0,
+        "total": 0
+      },
+      "TOTAL": 0
+    },
+    "ticket": "TCK-1758182287527-537",
+    "fecha": "2025-09-18T07:58:07.527Z"
+  }
 ]
