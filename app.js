@@ -5,7 +5,8 @@ const PORT = process.env.PORT || 3001;
 const routes = require('./routes/ticketRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const cors = require('cors'); 
-const dbConnecction = require('./config/db.js');
+const dbConnecction = require('./config/bbdd.js');// no configure el model
+//dbConnection();
 
 // CORS configurado específicamente para tu frontend
 app.use(cors({
@@ -16,6 +17,7 @@ app.use(cors({
 })); 
 
 app.use(express.json());
+
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
