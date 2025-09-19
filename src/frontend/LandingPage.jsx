@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
-export default function LandingPage({ onStart, eventInfo }) {
+export default function LandingPage({ onStart, onAdminClick, eventInfo }) {
+  // Debug: Verificar que las props lleguen correctamente
+  console.log('LandingPage props:', { onStart: !!onStart, onAdminClick: !!onAdminClick, eventInfo });
+  
   const [adultTickets, setAdultTickets] = useState(0);
   const [childTickets, setChildTickets] = useState(0);
   const [vipTickets, setVipTickets] = useState(0);
@@ -219,12 +222,12 @@ export default function LandingPage({ onStart, eventInfo }) {
                 {/* Botón compra */}
                 <button
                   onClick={() => onStart({
-  vipTickets,
-  adultTickets, 
-  childTickets,
-  totalPrice,
-  prices: { VIP_PRICE, ADULT_PRICE, CHILD_PRICE }
-})}
+                    vipTickets,
+                    adultTickets, 
+                    childTickets,
+                    totalPrice,
+                    prices: { VIP_PRICE, ADULT_PRICE, CHILD_PRICE }
+                  })}
                   disabled={adultTickets === 0 && childTickets === 0 && vipTickets === 0}
                   className="w-full bg-gradient-to-r from-gray-800 to-black hover:from-black hover:to-gray-800 text-white px-8 py-4 rounded-full text-lg font-bold shadow-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 tracking-wide"
                   style={{ fontFamily: arabicFont }}
@@ -253,6 +256,32 @@ export default function LandingPage({ onStart, eventInfo }) {
           </div>
         </div>
       </div>
+
+      {/* Botón ADMIN fijo */}
+      <button
+        onClick={() => {
+          console.log('Admin button clicked, onAdminClick:', onAdminClick);
+          if (onAdminClick) {
+            onAdminClick();
+          } else {
+            console.error('onAdminClick prop is not defined');
+            alert('Error: onAdminClick prop is missing');
+          }
+        }}
+        className="fixed bottom-4 right-4 md:bottom-6 md:right-6 lg:bottom-8 lg:right-8 z-50 
+        bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 
+        text-white px-4 py-2 md:px-6 md:py-3 rounded-full shadow-2xl 
+        transition-all duration-300 transform hover:scale-105 active:scale-95
+        border border-red-500/30 backdrop-blur-sm"
+        style={{ fontFamily: arabicFont }}
+      >
+        <div className="flex items-center space-x-2">
+          <svg className="w-4 h-4 md:w-5 md:h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clipRule="evenodd"/>
+          </svg>
+          <span className="text-sm md:text-base font-bold tracking-wider">ADMIN</span>
+        </div>
+      </button>
     </div>
   );
 }

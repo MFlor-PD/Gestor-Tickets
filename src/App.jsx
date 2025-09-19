@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import LandingPage from './frontend/LandingPage';
 import TicketsPage from './frontend/TicketPage';
 import ConfirmationPage from './frontend/ConfirmationPage';
+import AdminModal from './frontend/AdminModal'; // ⭐ NUEVO
 
 // Configuración de la API - Ajusta el puerto según tu backend
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
@@ -20,7 +21,12 @@ const API_ENDPOINTS = {
   medioPago: `${API_BASE_URL}/carrito/medio-pago`,
   
   // MercadoPago
-  mercadoPago: `${API_BASE_URL}/mercadoPago`
+  mercadoPago: `${API_BASE_URL}/mercadoPago`,
+  
+  // ⭐ RUTAS ADMIN NUEVAS
+  adminLogin: `${API_BASE_URL}/api/admin/login`,
+  adminSales: `${API_BASE_URL}/api/admin/sales`,
+  adminExport: `${API_BASE_URL}/api/admin/export`
 };
 
 function App() {
@@ -32,6 +38,9 @@ function App() {
   const [successMessage, setSuccessMessage] = useState(null);
   const [selectedTickets, setSelectedTickets] = useState(null); 
   const [paymentResult, setPaymentResult] = useState(null);
+  
+  // ⭐ ESTADO PARA ADMIN MODAL
+  const [showAdminModal, setShowAdminModal] = useState(false);
 
   // Información del evento
   const eventInfo = {
@@ -74,6 +83,16 @@ function App() {
       setError(error.message);
       throw error;
     }
+  };
+
+  // ⭐ FUNCIÓN PARA MANEJAR CLICK DEL BOTÓN ADMIN
+  const handleAdminClick = () => {
+    setShowAdminModal(true);
+  };
+
+  // ⭐ FUNCIÓN PARA CERRAR MODAL ADMIN
+  const handleCloseAdmin = () => {
+    setShowAdminModal(false);
   };
 
   // Cargar reservas desde la API
@@ -484,6 +503,7 @@ function App() {
       {currentView === 'landing' ? (
         <LandingPage 
           onStart={handleStartPurchase}
+          onAdminClick={handleAdminClick} // ⭐ NUEVA PROP
           eventInfo={eventInfo}
         />
       ) : currentView === 'tickets' ? (
@@ -517,6 +537,12 @@ function App() {
           }}
         />
       ) : null}
+
+      {/* ⭐ MODAL DE ADMIN */}
+      <AdminModal 
+        isOpen={showAdminModal}
+        onClose={handleCloseAdmin}
+      />
     </div>
   );
 }

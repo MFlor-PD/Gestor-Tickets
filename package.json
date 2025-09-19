@@ -19,6 +19,7 @@
     "@testing-library/user-event": "^14.6.1",
     "cors": "2.8.5",
     "dotenv": "17.2.2",
+    "exceljs": "^4.4.0",
     "express": "5.1.0",
     "lucide-react": "^0.544.0",
     "mercadopago": "2.9.0",
@@ -27,7 +28,7 @@
     "qrcode": "1.5.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "react-scripts": "^0.0.0",
+    "react-scripts": "^5.0.1",
     "web-vitals": "^5.1.0"
   },
   "browserslist": {
