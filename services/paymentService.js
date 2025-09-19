@@ -1,34 +1,34 @@
-const mercadopago = require("mercadopago");
+const { MercadoPagoConfig, Preference } = require('mercadopago');
 require('dotenv').config();
 
-// Configuración del SDK de MercadoPago
-mercadopago.config = {
-  access_token: process.env.MERCADOPAGO_ACCESS_TOKEN
-};
+// Configuración del SDK de MercadoPago (nueva versión)
+const client = new MercadoPagoConfig({
+  accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN
+});
 
 /**
  * Crear preferencia de pago
- * @param {Object} entradas - Objeto con entradas por tipo
+ * @param {Array} entradas - Array con entradas
  * @param {Object} comprador - Datos del comprador
  * @param {string} externalReference - Datos de reserva en JSON string
  * @returns {string} URL de pago de MercadoPago
  */
 async function crearPreferencia(entradas, comprador, externalReference) {
+  const preference = new Preference(client);
+  
   const items = [];
 
-  // Convertimos entradas a items de MercadoPago
-  for (const tipo in entradas) {
-    for (const entrada of entradas[tipo]) {
-      items.push({
-        title: `${tipo} - ${entrada.nombre}`,
-        quantity: 1,
-        unit_price: 100, // ajusta según tu precio
-        currency_id: "ARS",
-      });
-    }
+  // Iterar directamente sobre el array de entradas
+  for (const entrada of entradas) {
+    items.push({
+      title: `Entrada ${entrada.tipo}`,
+      quantity: entrada.cantidad,
+      unit_price: entrada.precio_unitario,
+      currency_id: "ARS",
+    });
   }
 
-  const preference = {
+  const preferenceData = {
     items,
     payer: {
       name: comprador.nombre,
@@ -38,17 +38,17 @@ async function crearPreferencia(entradas, comprador, externalReference) {
         number: comprador.telefono.replace(/\D/g, "")
       }
     },
-    external_reference: externalReference, // <-- pasamos los datos de la reserva
+    external_reference: externalReference,
     back_urls: {
       success: `${process.env.FRONTEND_URL}/payment/success`,
-      failure: `${process.env.FRONTEND_URL}/payment/failure`,
+      failure: `${process.env.FRONTEND_URL}/payment/failure`, 
       pending: `${process.env.FRONTEND_URL}/payment/pending`
     },
     auto_return: "approved"
   };
 
-  const response = await mercadopago.preferences.create(preference);
-  return response.body.init_point;
+  const response = await preference.create({ body: preferenceData });
+  return response.init_point;
 }
 
 module.exports = { crearPreferencia };

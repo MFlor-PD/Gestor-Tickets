@@ -2,7 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const { leerVentas } = require('../model/ventasModel');
+const { obtenerReservaPorTicket } = require('../services/reservaService');
 const ExcelJS = require('exceljs');
+const path = require('path');
+const fs = require('fs');
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
@@ -173,6 +176,115 @@ router.get('/export', async (req, res) => {
       success: false, 
       message: 'Error al generar el archivo Excel' 
     });
+  }
+});
+
+// GET /api/admin/ticket/download/:paymentId - Descargar ticket específico (para ConfirmationPage)
+// En AdminRoutes - Reemplaza el endpoint existente
+router.get('/ticket/download/:paymentId', async (req, res) => {
+  try {
+    const { paymentId } = req.params;
+    console.log('Buscando reserva para:', paymentId);
+    
+    let reserva = null;
+    let pdfPath = null;
+    
+    // Primero: intentar buscar reserva real por ticket
+    try {
+      reserva = await obtenerReservaPorTicket(paymentId);
+      pdfPath = path.join(__dirname, `../tmp/${reserva.ticket}.pdf`);
+    } catch (error) {
+      console.log('No se encontró reserva real, verificando si es ID de MercadoPago...');
+    }
+    
+    // Segundo: si no encontró reserva, buscar en las ventas por payment_id
+    if (!reserva) {
+      try {
+        const { leerVentas } = require('../model/ventasModel');
+        const ventas = await leerVentas();
+        const venta = ventas.find(v => 
+          v.paymentId === paymentId || 
+          v.payment_id === paymentId ||
+          v.collection_id === paymentId
+        );
+        
+        if (venta) {
+          // Crear objeto reserva desde la venta
+          reserva = {
+            ticket: venta.ticket || `ARB-${paymentId.slice(-6).toUpperCase()}`,
+            comprador: {
+              nombre: venta.nombre || venta.buyerName,
+              email: venta.email || venta.buyerEmail,
+              telefono: venta.telefono || venta.buyerPhone
+            },
+            entradas: [], // Se puede expandir según necesites
+            totales: { TOTAL: venta.totalPrice }
+          };
+          
+          pdfPath = path.join(__dirname, `../tmp/${reserva.ticket}.pdf`);
+        }
+      } catch (error) {
+        console.log('Error buscando en ventas:', error.message);
+      }
+    }
+    
+    // Si aún no hay reserva, error 404
+    if (!reserva) {
+      return res.status(404).json({ error: 'Reserva no encontrada' });
+    }
+    
+    // Verificar si existe el PDF
+    if (!fs.existsSync(pdfPath)) {
+      return res.status(404).json({ 
+        error: 'PDF no encontrado. El ticket aún no ha sido generado.' 
+      });
+    }
+    
+    // Descargar PDF
+    res.download(pdfPath, `ticket-${reserva.ticket}.pdf`);
+    
+  } catch (error) {
+    console.error('Error en descarga:', error);
+    res.status(500).json({ error: 'Error al procesar solicitud' });
+  }
+});
+
+// GET /api/admin/payment/status/:paymentId - Verificar estado de pago (para ConfirmationPage)
+router.get('/payment/status/:paymentId', async (req, res) => {
+  try {
+    const { paymentId } = req.params;
+    
+    // Buscar reserva por payment ID o ticket
+    let reserva;
+    try {
+      reserva = await obtenerReservaPorTicket(paymentId);
+    } catch (error) {
+      // No encontrado en base local
+      console.log(`No se encontró reserva con ID ${paymentId}`);
+      return res.status(404).json({ error: 'Pago no encontrado' });
+    }
+    
+    if (reserva) {
+      return res.json({ 
+        status: 'approved', // Si existe la reserva, asumimos que fue aprobada
+        ticket: reserva.ticket,
+        reserva: {
+          ticket: reserva.ticket,
+          comprador: reserva.comprador,
+          entradas: reserva.entradas,
+          fecha: reserva.fecha,
+          totales: {
+            TOTAL: reserva.totales?.TOTAL || 0
+          }
+        }
+      });
+    }
+    
+    res.status(404).json({ error: 'Pago no encontrado' });
+    
+  } catch (error) {
+    console.error('Error al verificar estado de pago:', error);
+    res.status(500).json({ error: 'Error al verificar estado del pago' });
   }
 });
 
