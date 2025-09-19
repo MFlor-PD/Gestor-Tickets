@@ -1,10 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const router = express.Router();
 const { leerVentas } = require('../model/ventasModel');
 const ExcelJS = require('exceljs');
 
-// Contraseña de administrador (cambia por una contraseña segura)
-const ADMIN_PASSWORD = 'cena_arabe_2024';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
 // POST /api/admin/login - Verificar contraseña de admin
 router.post('/login', async (req, res) => {

@@ -6,7 +6,9 @@ const routes = require('./routes/ticketRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const cors = require('cors'); 
+const dbConnection = require('./config/bbdd.js');
 
+dbConnection();
 // CORS configurado para codespaces y localhost
 app.use(cors({
   origin: [
