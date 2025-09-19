@@ -6,6 +6,7 @@ const routes = require('./routes/ticketRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const cors = require('cors'); 
 const dbConnecction = require('./config/db.js');
+
 // CORS configurado específicamente para tu frontend
 app.use(cors({
   origin: 'http://localhost:3000', // tu frontend React
