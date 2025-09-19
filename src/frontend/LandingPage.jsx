@@ -9,7 +9,7 @@ export default function LandingPage({ onStart, onAdminClick, eventInfo }) {
   const [vipTickets, setVipTickets] = useState(0);
 
   const ADULT_PRICE = 70000;
-  const CHILD_PRICE = 50000;
+  const CHILD_PRICE = 1;
   const VIP_PRICE = 80000;
 
   const totalPrice = (adultTickets * ADULT_PRICE) + (childTickets * CHILD_PRICE) + (vipTickets * VIP_PRICE);

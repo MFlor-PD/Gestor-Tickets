@@ -3,11 +3,14 @@ import { ArrowLeft, User, Mail, Phone, MessageCircle, CreditCard, Calendar, MapP
 
 export default function TicketsPage({
   selectedTickets,
-  onCreateTicket,
-  onGenerarPago,
   eventInfo,
   onBack
 }) {
+  console.log('TicketsPage - selectedTickets:', selectedTickets);
+  console.log('TicketsPage - API_BASE_URL:', process.env.REACT_APP_API_URL);
+  
+  const API_BASE_URL = process.env.REACT_APP_API_URL;
+  
   const [formData, setFormData] = useState({
     customerName: '',
     email: '',
@@ -47,7 +50,7 @@ export default function TicketsPage({
 
   const arabicFont = "'Amiri', 'Scheherazade New', serif";
 
-  // Validación de formulario actualizada
+  // Validación de formulario
   const validateForm = () => {
     const newErrors = {};
 
@@ -61,11 +64,10 @@ export default function TicketsPage({
       newErrors.email = 'El email no es válido';
     }
     
-    // VALIDACIÓN DE TELÉFONO FLEXIBLE
     const sanitizedPhone = formData.phone.replace(/[\s-()]/g, '');
     if (!sanitizedPhone) {
       newErrors.phone = 'El teléfono es obligatorio';
-    } else if (sanitizedPhone.length < 8) { // Mínimo de 8 dígitos para ser un número de teléfono plausible
+    } else if (sanitizedPhone.length < 8) {
       newErrors.phone = 'El número de teléfono parece demasiado corto';
     }
 
@@ -115,72 +117,105 @@ export default function TicketsPage({
     }
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  // Función principal con debug completo
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log('🚀 INICIO handleSubmit');
 
-  if (!validateForm()) {
-    return;
-  }
-
-  setIsSubmitting(true);
-
-  try {
-    const entradasBackend = {
-      VIP: [],
-      GENERAL: []
-    };
-
-    // Mapea los tickets VIP
-    const totalVip = selectedTickets.vipTickets || 0;
-    for (let i = 0; i < totalVip; i++) {
-      const attendeeName = (i === 0) ? formData.customerName : (formData.additionalAttendees[i - 1]?.name || 'Asistente VIP Adicional');
-      const attendeeAge = (i === 0) ? null : (formData.additionalAttendees[i - 1]?.age || null);
-      entradasBackend.VIP.push({ tipo: 'Adulto', nombre: attendeeName, edad: attendeeAge });
+    if (!validateForm()) {
+      console.log('❌ FORMULARIO INVÁLIDO');
+      return;
     }
 
-    // Mapea los tickets de Adultos y Niños como "GENERAL"
-    const totalAdult = selectedTickets.adultTickets || 0;
-    const totalChild = selectedTickets.childTickets || 0;
-    let attendeeIndex = totalVip > 0 ? totalVip - 1 : 0;
+    console.log('✅ Formulario válido, iniciando proceso...');
+    setIsSubmitting(true);
 
-    for (let i = 0; i < totalAdult; i++) {
-      const attendeeName = (attendeeIndex === 0) ? formData.customerName : (formData.additionalAttendees[attendeeIndex - 1]?.name || 'Asistente Adulto Adicional');
-      const attendeeAge = (attendeeIndex === 0) ? null : (formData.additionalAttendees[attendeeIndex - 1]?.age || null);
-      entradasBackend.GENERAL.push({ tipo: 'Adulto', nombre: attendeeName, edad: attendeeAge });
-      attendeeIndex++;
-    }
+    try {
+      const entradas = [];
+      
+      if (selectedTickets.vipTickets > 0) {
+        entradas.push({
+          tipo: 'VIP',
+          cantidad: selectedTickets.vipTickets,
+          precio_unitario: selectedTickets.prices.VIP_PRICE,
+          precio_total: selectedTickets.vipTickets * selectedTickets.prices.VIP_PRICE
+        });
+      }
+      
+      if (selectedTickets.adultTickets > 0) {
+        entradas.push({
+          tipo: 'Adultos',
+          cantidad: selectedTickets.adultTickets,
+          precio_unitario: selectedTickets.prices.ADULT_PRICE,
+          precio_total: selectedTickets.adultTickets * selectedTickets.prices.ADULT_PRICE
+        });
+      }
+      
+      if (selectedTickets.childTickets > 0) {
+        entradas.push({
+          tipo: 'Niños',
+          cantidad: selectedTickets.childTickets,
+          precio_unitario: selectedTickets.prices.CHILD_PRICE,
+          precio_total: selectedTickets.childTickets * selectedTickets.prices.CHILD_PRICE
+        });
+      }
 
-    for (let i = 0; i < totalChild; i++) {
-      const attendeeName = (attendeeIndex === 0) ? formData.customerName : (formData.additionalAttendees[attendeeIndex - 1]?.name || 'Asistente Niño Adicional');
-      const attendeeAge = (attendeeIndex === 0) ? null : (formData.additionalAttendees[attendeeIndex - 1]?.age || null);
-      entradasBackend.GENERAL.push({ tipo: 'Niño', nombre: attendeeName, edad: attendeeAge });
-      attendeeIndex++;
-    }
-
-    const reservaData = {
-      comprador: {
+      const comprador = {
         nombre: formData.customerName,
         email: formData.email,
         telefono: formData.phone,
-        observaciones: formData.specialRequests || ''
-      },
-      entradas: entradasBackend
-    };
+        observaciones: formData.specialRequests || '',
+        evento: 'Gran Cena Show Árabe',
+        fecha_evento: '2024-11-01',
+        ubicacion: 'Salón Haiat - Sociedad Árabe La Angelita'
+      };
 
-    const nuevaReserva = await onCreateTicket(reservaData);
+      console.log('📦 Datos a enviar:', { comprador, entradas });
+      console.log('🌐 URL destino:', `${API_BASE_URL}/api/create-payment`);
 
-    if (nuevaReserva && nuevaReserva.ticket) {
-      const pagoResponse = await onGenerarPago(nuevaReserva.ticket);
-      if (pagoResponse && pagoResponse.init_point) {
-        window.location.href = pagoResponse.init_point;
+      const response = await fetch(`${API_BASE_URL}/api/create-payment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          comprador: comprador,
+          entradas: entradas
+        })
+      });
+
+      console.log('📡 Response status:', response.status);
+      console.log('📡 Response ok:', response.ok);
+
+      const responseText = await response.text();
+      console.log('📄 Response text:', responseText);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}, response: ${responseText}`);
       }
+
+      const data = JSON.parse(responseText);
+      console.log('✅ Datos parseados:', data);
+
+      if (data.paymentUrl) {
+        console.log('🔗 Redirigiendo a paymentUrl:', data.paymentUrl);
+        window.location.href = data.paymentUrl;
+      } else if (data.init_point) {
+        console.log('🔗 Redirigiendo a init_point:', data.init_point);
+        window.location.href = data.init_point;
+      } else {
+        console.log('❌ No hay URL de pago en la respuesta:', data);
+        throw new Error('No se recibió el link de pago de MercadoPago');
+      }
+
+    } catch (error) {
+      console.error('💥 ERROR COMPLETO:', error);
+      alert(`Error: ${error.message}`);
+    } finally {
+      setIsSubmitting(false);
+      console.log('🏁 FIN handleSubmit');
     }
-  } catch (error) {
-    console.error('Error en la compra:', error);
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   if (!selectedTickets) {
     return (
@@ -211,7 +246,7 @@ const handleSubmit = async (e) => {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-transparent to-black/40" />
       </div>
 
-      {/* MANDALA DE FONDO - MISMO POSICIONAMIENTO QUE LANDING */}
+      {/* MANDALA DE FONDO */}
       <div className="fixed left-0 top-0 h-screen w-full pointer-events-none z-0">
         <div
           className="absolute -left-1/4 md:-left-1/6 lg:-left-1/4 xl:-left-1/6 top-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[700px] md:h-[700px] lg:w-[1000px] lg:h-[1000px] xl:w-[1100px] xl:h-[1100px]"
@@ -255,7 +290,7 @@ const handleSubmit = async (e) => {
                 className="text-amber-200 text-lg lg:text-xl"
                 style={{ fontFamily: arabicFont }}
               >
-                {eventInfo.title}
+                {eventInfo?.title || 'Gran Cena Show Árabe'}
               </p>
             </div>
           </div>
@@ -407,7 +442,7 @@ const handleSubmit = async (e) => {
 
                       <div className="mt-4 p-3 bg-blue-500/10 rounded-lg border border-blue-400/20">
                         <p className="text-blue-200 text-xs">
-                          💡 Estos datos nos ayudan con el control de acceso y la organización del evento
+                          Estos datos nos ayudan con el control de acceso y la organización del evento
                         </p>
                       </div>
                     </div>
@@ -436,7 +471,7 @@ const handleSubmit = async (e) => {
                   </div>
                   <div className="flex items-center gap-3">
                     <MapPin className="w-5 h-5 text-amber-400" />
-                    <span>{eventInfo.location}</span>
+                    <span>{eventInfo?.location || 'Salón Haiat - Sociedad Árabe La Angelita'}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Users className="w-5 h-5 text-amber-400" />
@@ -521,11 +556,24 @@ const handleSubmit = async (e) => {
                   )}
                 </div>
 
-                {/* BOTÓN DE PAGO */}
+                {/* BOTÓN DE PAGO CON DEBUG */}
                 <button
                   type="submit"
-                  form="purchase-form"
-                  onClick={handleSubmit}
+                  onClick={(e) => {
+                    console.log('🔘 BOTÓN CLICKEADO');
+                    console.log('📝 isAgreed:', isAgreed);
+                    console.log('📝 isSubmitting:', isSubmitting);
+                    console.log('📝 customerName:', formData.customerName);
+                    console.log('📝 email:', formData.email);
+                    console.log('📝 phone:', formData.phone);
+                    
+                    if (!isAgreed) {
+                      console.log('❌ Términos no aceptados');
+                      return;
+                    }
+                    
+                    handleSubmit(e);
+                  }}
                   disabled={isSubmitting || !isAgreed}
                   className={`w-full mt-6 px-8 py-4 rounded-full text-lg font-bold shadow-lg transition-all duration-300 transform ${
                     isSubmitting || !isAgreed
@@ -543,6 +591,40 @@ const handleSubmit = async (e) => {
                 <p className="text-amber-200/70 text-xs text-center mt-3">
                   Serás redirigido a MercadoPago para completar el pago de forma segura
                 </p>
+
+                {/* BOTONES DE SIMULACIÓN TEMPORAL - PARA TESTING */}
+                <div className="mt-6 pt-4 border-t border-amber-400/20">
+                  <p className="text-amber-300 text-sm font-bold mb-3 text-center">Testing - Simular Estados de Pago</p>
+                  <div className="grid grid-cols-1 gap-2">
+                    <button
+                      onClick={() => {
+                        window.location.href = `${window.location.origin}/payment/success?collection_status=approved&collection_id=TEST123&payment_id=TEST456`;
+                      }}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      ✅ Simular Pago Exitoso
+                    </button>
+                    <button
+                      onClick={() => {
+                        window.location.href = `${window.location.origin}/payment/failure?collection_status=rejected&collection_id=TEST123`;
+                      }}
+                      className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      ❌ Simular Pago Rechazado
+                    </button>
+                    <button
+                      onClick={() => {
+                        window.location.href = `${window.location.origin}/payment/pending?collection_status=pending&collection_id=TEST123`;
+                      }}
+                      className="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      ⏳ Simular Pago Pendiente
+                    </button>
+                  </div>
+                  <p className="text-amber-200/50 text-xs text-center mt-2">
+                    (Eliminar estos botones en producción)
+                  </p>
+                </div>
               </div>
             </div>
           </div>

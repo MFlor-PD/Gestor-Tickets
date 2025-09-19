@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import LandingPage from './frontend/LandingPage';
 import TicketsPage from './frontend/TicketPage';
 import ConfirmationPage from './frontend/ConfirmationPage';
-import AdminModal from './frontend/AdminModal'; // ⭐ NUEVO
+import AdminModal from './frontend/AdminModal';
 
-// Configuración de la API - Ajusta el puerto según tu backend
+// Configuración de la API
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
 
 const API_ENDPOINTS = {
@@ -13,33 +13,25 @@ const API_ENDPOINTS = {
   crearReserva: `${API_BASE_URL}/reservas`,
   eliminarReserva: (ticket) => `${API_BASE_URL}/reservas/${ticket}`,
   
-  // Rutas del carrito
-  carrito: `${API_BASE_URL}/carrito`,
-  agregarCarrito: `${API_BASE_URL}/carrito`,
-  eliminarCarrito: (ticket) => `${API_BASE_URL}/carrito/${ticket}`,
-  vaciarCarrito: `${API_BASE_URL}/carrito`,
-  medioPago: `${API_BASE_URL}/carrito/medio-pago`,
-  
   // MercadoPago
   mercadoPago: `${API_BASE_URL}/mercadoPago`,
   
-  // ⭐ RUTAS ADMIN NUEVAS
+  // Rutas admin
   adminLogin: `${API_BASE_URL}/api/admin/login`,
   adminSales: `${API_BASE_URL}/api/admin/sales`,
   adminExport: `${API_BASE_URL}/api/admin/export`
 };
 
 function App() {
-  const [currentView, setCurrentView] = useState('landing'); // 'landing' | 'tickets'
+  const [currentView, setCurrentView] = useState('landing'); // 'landing' | 'tickets' | 'confirmation'
   const [reservas, setReservas] = useState([]);
-  const [carrito, setCarrito] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const [selectedTickets, setSelectedTickets] = useState(null); 
   const [paymentResult, setPaymentResult] = useState(null);
   
-  // ⭐ ESTADO PARA ADMIN MODAL
+  // Estado para admin modal
   const [showAdminModal, setShowAdminModal] = useState(false);
 
   // Información del evento
@@ -85,12 +77,12 @@ function App() {
     }
   };
 
-  // ⭐ FUNCIÓN PARA MANEJAR CLICK DEL BOTÓN ADMIN
+  // Función para manejar click del botón admin
   const handleAdminClick = () => {
     setShowAdminModal(true);
   };
 
-  // ⭐ FUNCIÓN PARA CERRAR MODAL ADMIN
+  // Función para cerrar modal admin
   const handleCloseAdmin = () => {
     setShowAdminModal(false);
   };
@@ -111,20 +103,9 @@ function App() {
     }
   };
 
-  // Cargar carrito
-  const fetchCarrito = async () => {
-    try {
-      const data = await apiRequest(API_ENDPOINTS.carrito);
-      setCarrito(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error('Error al cargar carrito:', error);
-    }
-  };
-
-  // Crear nueva reserva - FORMATO CORREGIDO SEGÚN BACKEND
+  // Crear nueva reserva
   const handleCreateTicket = async (ticketData) => {
     try {
-      // Formato según el backend que proporcionaste
       const reservaData = {
         comprador: {
           nombre: ticketData.customerName,
@@ -171,74 +152,6 @@ function App() {
     }
   };
 
-  // Crear reserva desde datos del Landing Page
-  const handleCreateTicketFromSelection = async (selectionData) => {
-    try {
-      const reservaData = {
-        comprador: {
-          nombre: "Cliente", // Esto debería venir de un formulario
-          email: "cliente@example.com", // Esto debería venir de un formulario
-          telefono: "+541112345678" // Esto debería venir de un formulario
-        },
-        entradas: {
-          VIP: [],
-          GENERAL: []
-        }
-      };
-
-      // Agregar tickets VIP
-      for (let i = 0; i < selectionData.vipTickets; i++) {
-        reservaData.entradas.VIP.push({
-          tipo: "Adult", // Puedes ajustar según necesites
-          nombre: `VIP ${i + 1}`
-        });
-      }
-
-      // Agregar tickets para adultos
-      for (let i = 0; i < selectionData.adultTickets; i++) {
-        reservaData.entradas.GENERAL.push({
-          tipo: "Adult",
-          nombre: `Adult ${i + 1}`
-        });
-      }
-
-      // Agregar tickets para niños
-      for (let i = 0; i < selectionData.childTickets; i++) {
-        reservaData.entradas.GENERAL.push({
-          tipo: "Child",
-          nombre: `Child ${i + 1}`
-        });
-      }
-
-      const response = await apiRequest(API_ENDPOINTS.crearReserva, {
-        method: 'POST',
-        body: JSON.stringify(reservaData)
-      });
-
-      await fetchReservas();
-      setError(null);
-      setSuccessMessage('Reserva creada desde selección');
-      return response.reserva;
-    } catch (error) {
-      setError('Error al crear reserva desde selección');
-      throw error;
-    }
-  };
-
-  // Actualizar reserva (si implementas PUT en el backend)
-  const handleUpdateTicket = async (ticketId, ticketData) => {
-    try {
-      // Por ahora, como no tienes ruta PUT, eliminamos y creamos nueva
-      // O puedes implementar PUT /reservas/:ticket en tu backend
-      
-      setError('Función de actualización no implementada aún');
-      throw new Error('Actualización no disponible');
-    } catch (error) {
-      setError('Error al actualizar la reserva');
-      throw error;
-    }
-  };
-
   // Eliminar reserva
   const handleDeleteTicket = async (ticket) => {
     try {
@@ -277,114 +190,7 @@ function App() {
     }
   };
 
-  // Agregar al carrito - FORMATO CORREGIDO
-  const handleAddToCarrito = async (reservaData) => {
-    try {
-      // Usar el mismo formato que las reservas según el backend
-      const carritoData = {
-        comprador: {
-          nombre: reservaData.customerName || reservaData.comprador?.nombre || "Cliente",
-          email: reservaData.email || reservaData.comprador?.email || "cliente@example.com",
-          telefono: reservaData.phone || reservaData.comprador?.telefono || "+541112345678"
-        },
-        entradas: {
-          VIP: [],
-          GENERAL: []
-        }
-      };
-
-      // Si es una selección del landing page
-      if (reservaData.vipTickets || reservaData.adultTickets || reservaData.childTickets) {
-        // Agregar tickets VIP
-        for (let i = 0; i < (reservaData.vipTickets || 0); i++) {
-          carritoData.entradas.VIP.push({
-            tipo: "Adult",
-            nombre: `VIP ${i + 1}`
-          });
-        }
-
-        // Agregar tickets para adultos
-        for (let i = 0; i < (reservaData.adultTickets || 0); i++) {
-          carritoData.entradas.GENERAL.push({
-            tipo: "Adult",
-            nombre: `Adult ${i + 1}`
-          });
-        }
-
-        // Agregar tickets para niños
-        for (let i = 0; i < (reservaData.childTickets || 0); i++) {
-          carritoData.entradas.GENERAL.push({
-            tipo: "Child",
-            nombre: `Child ${i + 1}`
-          });
-        }
-      } else {
-        // Formato tradicional de ticket individual
-        const tipoEntrada = reservaData.ticketType || 'GENERAL';
-        const tipoPersona = reservaData.personType || 'Adult';
-        
-        for (let i = 0; i < (reservaData.quantity || 1); i++) {
-          const entrada = {
-            tipo: tipoPersona,
-            nombre: reservaData.guestNames ? reservaData.guestNames[i] : `${carritoData.comprador.nombre} ${i + 1}`
-          };
-
-          if (tipoEntrada === 'VIP') {
-            carritoData.entradas.VIP.push(entrada);
-          } else {
-            carritoData.entradas.GENERAL.push(entrada);
-          }
-        }
-      }
-
-      const response = await apiRequest(API_ENDPOINTS.agregarCarrito, {
-        method: 'POST',
-        body: JSON.stringify(carritoData)
-      });
-      
-      await fetchCarrito();
-      setError(null);
-      setSuccessMessage('Agregado al carrito correctamente');
-      return response.reserva;
-    } catch (error) {
-      setError('Error al agregar al carrito');
-      throw error;
-    }
-  };
-
-  // Eliminar del carrito
-  const handleRemoveFromCarrito = async (ticket) => {
-    try {
-      await apiRequest(API_ENDPOINTS.eliminarCarrito(ticket), {
-        method: 'DELETE'
-      });
-      
-      await fetchCarrito();
-      setError(null);
-      setSuccessMessage('Eliminado del carrito');
-    } catch (error) {
-      setError('Error al eliminar del carrito');
-      throw error;
-    }
-  };
-
-  // Vaciar carrito
-  const handleVaciarCarrito = async () => {
-    try {
-      await apiRequest(API_ENDPOINTS.vaciarCarrito, {
-        method: 'DELETE'
-      });
-      
-      setCarrito([]);
-      setError(null);
-      setSuccessMessage('Carrito vaciado');
-    } catch (error) {
-      setError('Error al vaciar el carrito');
-      throw error;
-    }
-  };
-
-  // Generar pago con MercadoPago - ✅ FUNCIÓN ÚNICA
+  // Generar pago con MercadoPago
   const handleGenerarPago = async (ticket) => {
     try {
       const response = await apiRequest(`${API_BASE_URL}/mercadoPago`, {
@@ -399,23 +205,6 @@ function App() {
     }
   };
 
-  // Guardar medio de pago
-  const handleMedioPago = async (medio) => {
-    try {
-      const response = await apiRequest(API_ENDPOINTS.medioPago, {
-        method: 'PATCH',
-        body: JSON.stringify({ medio })
-      });
-
-      await fetchCarrito(); // Recargar carrito con medio de pago actualizado
-      setSuccessMessage(`Medio de pago guardado: ${medio}`);
-      return response;
-    } catch (error) {
-      setError('Error al guardar medio de pago');
-      throw error;
-    }
-  };
-
   const handleBackToLanding = () => {
     setCurrentView('landing');
     setSelectedTickets(null);
@@ -424,31 +213,45 @@ function App() {
   // Refrescar datos
   const handleRefresh = () => {
     fetchReservas();
-    fetchCarrito();
   };
 
   // Manejar inicio de compra desde Landing Page
   const handleStartPurchase = async (selectionData) => {
     console.log('Datos recibidos del LandingPage:', selectionData);
     setSelectedTickets(selectionData);
-    
-    // Opción 1: Ir directamente a TicketsPage para que el usuario complete los datos
     setCurrentView('tickets');
-    
-    // Opción 2: Agregar automáticamente al carrito (descomenta si prefieres esto)
-    // try {
-    //   await handleAddToCarrito(selectionData);
-    //   setCurrentView('tickets');
-    // } catch (error) {
-    //   console.error('Error al procesar selección:', error);
-    // }
   };
 
-  // Cargar datos cuando se monta el componente y cuando cambia la vista
+  // Detectar redirecciones de MercadoPago
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('collection_status') || urlParams.get('status');
+    const paymentId = urlParams.get('collection_id') || urlParams.get('payment_id');
+    
+    // Detectar rutas de retorno de MercadoPago
+    if (window.location.pathname.includes('/payment/')) {
+      let paymentStatus = 'failure'; // Default
+      
+      if (window.location.pathname.includes('/success')) {
+        paymentStatus = 'success';
+      } else if (window.location.pathname.includes('/pending')) {
+        paymentStatus = 'pending';
+      } else if (window.location.pathname.includes('/failure')) {
+        paymentStatus = 'failure';
+      }
+      
+      setCurrentView('confirmation');
+      setPaymentResult({ 
+        status: paymentStatus, 
+        paymentId: paymentId 
+      });
+    }
+  }, []);
+
+  // Cargar datos cuando se monta el componente
   useEffect(() => {
     if (currentView === 'tickets') {
       fetchReservas();
-      fetchCarrito();
     }
   }, [currentView]);
 
@@ -503,26 +306,13 @@ function App() {
       {currentView === 'landing' ? (
         <LandingPage 
           onStart={handleStartPurchase}
-          onAdminClick={handleAdminClick} // ⭐ NUEVA PROP
+          onAdminClick={handleAdminClick}
           eventInfo={eventInfo}
         />
       ) : currentView === 'tickets' ? (
         <TicketsPage
           selectedTickets={selectedTickets}
-          tickets={reservas}
-          carrito={carrito}
-          onCreateTicket={handleCreateTicket}
-          onUpdateTicket={handleUpdateTicket}
-          onDeleteTicket={handleDeleteTicket}
-          onStatusChange={handleStatusChange}
-          onAddToCarrito={handleAddToCarrito}
-          onRemoveFromCarrito={handleRemoveFromCarrito}
-          onVaciarCarrito={handleVaciarCarrito}
-          onRefresh={handleRefresh}
-          isLoading={isLoading}
           eventInfo={eventInfo}
-          onGenerarPago={handleGenerarPago}
-          onMedioPago={handleMedioPago}
           onBack={handleBackToLanding}
         />
       ) : currentView === 'confirmation' ? (
@@ -538,7 +328,7 @@ function App() {
         />
       ) : null}
 
-      {/* ⭐ MODAL DE ADMIN */}
+      {/* Modal de admin */}
       <AdminModal 
         isOpen={showAdminModal}
         onClose={handleCloseAdmin}
