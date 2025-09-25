@@ -34,7 +34,7 @@ app.use('/api', paymentRoutes);
 app.use('/api/admin', adminRoutes); 
 
 app.listen(PORT, () => {
-    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🚀 Backend URL: ${process.env.BACKEND_URL}`);
     console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL}`);
     console.log(`📡 Backend URL: ${process.env.REACT_APP_API_URL}`);
     console.log(`✅ CORS configured for: ${process.env.FRONTEND_URL}`);
