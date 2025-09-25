@@ -4,7 +4,7 @@
   "description": "🎯 MVP",
   "main": "app.js",
   "scripts": {
-    "start": "PORT=3000 react-scripts start",
+    "start": "cross-env PORT=3000 react-scripts start",
     "start:api": "node --watch app.js",
     "dev": "concurrently \"npm run start:api\" \"npm run start\"",
     "build": "react-scripts build",
@@ -51,6 +51,8 @@
     "@babel/preset-react": "^7.27.1",
     "autoprefixer": "^10.4.16",
     "concurrently": "^9.2.1",
+    "cross-env": "^10.0.0",
+    "eslint-scope": "^8.4.0",
     "postcss": "^8.4.32",
     "tailwindcss": "^3.3.7"
   }
